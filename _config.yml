@@ -1,1 +1,4 @@
 theme: jekyll-theme-architect
+
+title: [Dynhost OVH + external IP from Livebox]
+description: [Script to update periodically your OVH DNS via DynHost and use the Livebox to retrieve the public IP]
