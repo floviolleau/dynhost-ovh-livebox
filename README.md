@@ -4,18 +4,18 @@ Script to update periodically your OVH DNS via DynHost and use the Livebox to re
 ## OVH user creation.
 To use that script, you have to set a login and a password. This login and password have to be created by going in the OVH manager. Chose your domain name section, and move to the dyndns tab.
 
-![ovh-1](https://github.com/floviolleau/dynhost-ovh-livebox/blob/master/docs/images/ovh-1.png)
- 
 Next move to manage access.
 
+![ovh-1](https://github.com/floviolleau/dynhost-ovh-livebox/blob/master/docs/images/ovh-1.png)
+
+Next create an id.
 ![ovh-2](https://github.com/floviolleau/dynhost-ovh-livebox/blob/master/docs/images/ovh-2.png)
 
-Next create an id
+Login use in the script will be: domain-name.[login_you_want]
+Password use in the script will the one you chose in that screen.
 
 ![ovh-3](https://github.com/floviolleau/dynhost-ovh-livebox/blob/master/docs/images/ovh-3.png)
 
-Login will be: domain-name.[login_you_want]
-Password will the one you chose in that screen.
 
 ## Cron
 Use with cron to launch periodicaly
