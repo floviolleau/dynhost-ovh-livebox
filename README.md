@@ -6,23 +6,23 @@ To use that script, you have to set a login and a password. This login and passw
 
 Next move to manage access.
 
-![ovh-1](https://github.com/floviolleau/dynhost-ovh-livebox/blob/master/docs/images/ovh-1.png)
+![ovh-1](https://raw.githubusercontent.com/floviolleau/dynhost-ovh-livebox/master/docs/images/ovh-1.png)
 
 Next create an id.
-![ovh-2](https://github.com/floviolleau/dynhost-ovh-livebox/blob/master/docs/images/ovh-2.png)
+![ovh-2](https://raw.githubusercontent.com/floviolleau/dynhost-ovh-livebox/master/docs/images/ovh-2.png)
 
 Login use in the script will be: domain-name.[login_you_want]
 Password use in the script will the one you chose in that screen.
 
-![ovh-3](https://github.com/floviolleau/dynhost-ovh-livebox/blob/master/docs/images/ovh-3.png)
+![ovh-3](https://raw.githubusercontent.com/floviolleau/dynhost-ovh-livebox/master/docs/images/ovh-3.png)
 
 
 ## Cron
-Use with cron to launch periodicaly
+Use with cron to launch periodicaly (every two minutes)
 
 ```
 crontab -e
-  00 * * * * /usr/local/dynhost/dynhost
+*/2 * * * * /usr/local/dynhost/dynhost
 ```
 
 ## Config file
@@ -31,5 +31,5 @@ You can use the sample config file given (dynhost.sample.cfg). Rename it to dynh
 
 ```
 crontab -e
-  00 * * * * /usr/local/dynhost/dynhost /usr/local/dynhost/dynhost.cfg
+*/2 * * * * /usr/local/dynhost/dynhost /usr/local/dynhost/dynhost.cfg
 ```
