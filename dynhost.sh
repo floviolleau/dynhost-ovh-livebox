@@ -25,10 +25,10 @@ else
 fi
 
 # Check binaries
-HAS_CURL=`which curl | echo $?`
-HAS_WGET=`which wget | echo $?`
-HAS_SED=`which sed | echo $?`
-HAS_DIG=`which dig | echo $?`
+HAS_CURL=`which curl ; echo $?`
+HAS_WGET=`which wget ; echo $?`
+HAS_SED=`which sed ; echo $?`
+HAS_DIG=`which dig ; echo $?`
 if [ "$HAS_CURL" -eq "1" ]; then
   echo 'Please install curl' >> $LOG_PATH/dynhost.log
   exit;
