@@ -14,7 +14,7 @@ Next create an id.
 
 ![ovh-2](https://raw.githubusercontent.com/floviolleau/dynhost-ovh-livebox/master/docs/images/ovh-2.png)
 
-Login use in the script will be: domain-name.[login_you_created]
+Login use in the script will be: domain-name.fr-[login_you_created]
 
 Password use in the script will the one you chose in that screen.
 

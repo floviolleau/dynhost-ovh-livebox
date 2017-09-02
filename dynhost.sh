@@ -15,9 +15,9 @@ if [ -f "$1" ]; then
   . $1
 else
   # HOST can be a domain or a sub-domain
-  HOST='sub-domain.you-domain.fr'
+  HOST='sub-domain.your-domain.fr'
   # LOGIN is the one you created in ovh manager (see Readme file)
-  LOGIN='you-domain-LOGIN'
+  LOGIN='your-domain.fr-LOGIN'
   # PASSWORD is the one you created in ovh manager (see Readme file)
   PASSWORD='password'
   LOG_PATH='/var/log/dynhost'
