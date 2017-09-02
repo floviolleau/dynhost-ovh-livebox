@@ -28,6 +28,7 @@ fi
 HAS_CURL=`which curl | echo $?`
 HAS_WGET=`which wget | echo $?`
 HAS_SED=`which sed | echo $?`
+HAS_DIG=`which dig | echo $?`
 if [ "$HAS_CURL" -eq "1" ]; then
   echo 'Please install curl' >> $LOG_PATH/dynhost.log
   exit;
@@ -43,13 +44,18 @@ if [ "$HAS_SED" -eq "1" ]; then
   exit;
 fi
 
+if [ "$HAS_DIG" -eq "1" ]; then
+  echo 'Please install dig' >> $LOG_PATH/dynhost.log
+  exit;
+fi
+
 echo '----------------------------------' >> $LOG_PATH/dynhost.log
 echo `date` >> $LOG_PATH/dynhost.log
 echo 'DynHost' >> $LOG_PATH/dynhost.log
 
 IP=`curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}'  http://$LIVEBOX/sysbus/NMC:getWANStatus | sed -e 's/.*"IPAddress":"\(.*\)","Remo.*/\1/g'`
 IPv6=`curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}'  http://$LIVEBOX/sysbus/NMC:getWANStatus | sed -e 's/.*"IPv6Address":"\(.*\)","IPv6D.*/\1/g'`
-OLDIP=`dig +short $HOST`
+OLDIP=`dig +short @$LIVEBOX $HOST`
 
 if [ "$IP" ]; then
   if [ "$OLDIP" != "$IP" ]; then
