@@ -25,29 +25,10 @@ else
 fi
 
 # Check binaries
-HAS_CURL=`which curl ; echo $?`
-HAS_WGET=`which wget ; echo $?`
-HAS_SED=`which sed ; echo $?`
-HAS_DIG=`which dig ; echo $?`
-if [ "$HAS_CURL" -eq "1" ]; then
-  echo 'Please install curl' >> $LOG_PATH/dynhost.log
-  exit;
-fi
-
-if [ "$HAS_WGET" -eq "1" ]; then
-  echo 'Please install wget' >> $LOG_PATH/dynhost.log
-  exit;
-fi
-
-if [ "$HAS_SED" -eq "1" ]; then
-  echo 'Please install sed' >> $LOG_PATH/dynhost.log
-  exit;
-fi
-
-if [ "$HAS_DIG" -eq "1" ]; then
-  echo 'Please install dig' >> $LOG_PATH/dynhost.log
-  exit;
-fi
+type curl >/dev/null 2>&1 || { echo "I require curl but it's not installed.  Aborting." 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
+type wget >/dev/null 2>&1 || { echo "I require wget but it's not installed.  Aborting." 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
+type sed >/dev/null 2>&1 || { echo "I require sed but it's not installed.  Aborting." 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
+type dig >/dev/null 2>&1 || { echo "I require dig but it's not installed.  Aborting." 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
 
 echo '----------------------------------' >> $LOG_PATH/dynhost.log
 echo `date` >> $LOG_PATH/dynhost.log
