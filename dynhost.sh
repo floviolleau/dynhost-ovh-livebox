@@ -30,7 +30,7 @@ type wget >/dev/null 2>&1 || { echo -e "I require wget but it's not installed.\n
 type sed >/dev/null 2>&1 || { echo -e "I require sed but it's not installed.\nAborting.\n" 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
 type dig >/dev/null 2>&1 || { echo -e "I require dig but it's not installed.\nAborting.\n" 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
 
-echo '----------------------------------' >> $LOG_PATH/dynhost.log
+echo '--------------------------------------------' >> $LOG_PATH/dynhost.log
 echo `date` >> $LOG_PATH/dynhost.log
 echo 'DynHost' >> $LOG_PATH/dynhost.log
 
@@ -42,20 +42,20 @@ OLDIP=`dig +short @$LIVEBOX $HOST`
 
 if [ "$IP" ]; then
   if [ "$OLDIP" != "$IP" ]; then
-    echo -n "Old IP: [$OLDIP]\n" >> $LOG_PATH/dynhost.log
-    echo -n "New IP: [$IP]\n" >> $LOG_PATH/dynhost.log
+    echo -n 'Old IP: [$OLDIP]\n' >> $LOG_PATH/dynhost.log
+    echo -n 'New IP: [$IP]\n' >> $LOG_PATH/dynhost.log
     wget -q -O $TMPFILE 'http://www.ovh.com/nic/update?system=dyndns&hostname='$HOST'&myip='$IP --user=$LOGIN --password=$PASSWORD >> $LOG_PATH/dynhost.log
 	RESULT=`cat $TMPFILE`
-    echo "Result: $RESULT\n" >> $LOG_PATH/dynhost.log
+    echo 'Result: $RESULT\n' >> $LOG_PATH/dynhost.log
     if [[ $RESULT =~ ^(good|nochg).* ]]; then
-      echo ---------------------------------- >> $LOG_PATH/dynhost-changes.log
+      echo '--------------------------------------------' >> $LOG_PATH/dynhost-changes.log
       echo `date` >> $LOG_PATH/dynhost-changes.log
-      echo "New IP : $IP" >> $LOG_PATH/dynhost-changes.log
+      echo 'New IP : $IP' >> $LOG_PATH/dynhost-changes.log
     fi
 	rm $TMPFILE
   else
-    echo "Notice: IP $HOST [$OLDIP] is identical to WAN [$IP]! No update required." >> $LOG_PATH/dynhost.log
+    echo 'Notice: IP $HOST [$OLDIP] is identical to WAN [$IP]! No update required.' >> $LOG_PATH/dynhost.log
   fi
 else
-  echo "Error: WAN IP not found. Exiting!" >> $LOG_PATH/dynhost.log
+  echo 'Error: WAN IP not found. Exiting!' >> $LOG_PATH/dynhost.log
 fi
