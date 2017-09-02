@@ -25,14 +25,16 @@ else
 fi
 
 # Check binaries
-type curl >/dev/null 2>&1 || { echo "I require curl but it's not installed.  Aborting." 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
-type wget >/dev/null 2>&1 || { echo "I require wget but it's not installed.  Aborting." 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
-type sed >/dev/null 2>&1 || { echo "I require sed but it's not installed.  Aborting." 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
-type dig >/dev/null 2>&1 || { echo "I require dig but it's not installed.  Aborting." 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
+type curl >/dev/null 2>&1 || { echo -e "I require curl but it's not installed.\nAborting.\n" 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
+type wget >/dev/null 2>&1 || { echo -e "I require wget but it's not installed.\nAborting.\n" 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
+type sed >/dev/null 2>&1 || { echo -e "I require sed but it's not installed.\nAborting.\n" 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
+type dig >/dev/null 2>&1 || { echo -e "I require dig but it's not installed.\nAborting.\n" 2>&1 | tee -a $LOG_PATH/dynhost.log; exit 1; }
 
 echo '----------------------------------' >> $LOG_PATH/dynhost.log
 echo `date` >> $LOG_PATH/dynhost.log
 echo 'DynHost' >> $LOG_PATH/dynhost.log
+
+TMPFILE=`/tmp/dyndns`
 
 IP=`curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}'  http://$LIVEBOX/sysbus/NMC:getWANStatus | sed -e 's/.*"IPAddress":"\(.*\)","Remo.*/\1/g'`
 IPv6=`curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}'  http://$LIVEBOX/sysbus/NMC:getWANStatus | sed -e 's/.*"IPv6Address":"\(.*\)","IPv6D.*/\1/g'`
@@ -40,15 +42,17 @@ OLDIP=`dig +short @$LIVEBOX $HOST`
 
 if [ "$IP" ]; then
   if [ "$OLDIP" != "$IP" ]; then
-    echo -n "Old IP: [$OLDIP]" >> $LOG_PATH/dynhost.log
-    echo -n "New IP: [$IP]" >> $LOG_PATH/dynhost.log
-    RESULT=`wget -q -O - 'http://www.ovh.com/nic/update?system=dyndns&hostname='$HOST'&myip='$IP --user=$LOGIN --password=$PASSWORD >> $LOG_PATH/dynhost.log`
-    echo "Result: $RESULT" >> $LOG_PATH/dynhost.log
+    echo -n "Old IP: [$OLDIP]\n" >> $LOG_PATH/dynhost.log
+    echo -n "New IP: [$IP]\n" >> $LOG_PATH/dynhost.log
+    wget -q -O $TMPFILE 'http://www.ovh.com/nic/update?system=dyndns&hostname='$HOST'&myip='$IP --user=$LOGIN --password=$PASSWORD >> $LOG_PATH/dynhost.log
+	RESULT=`cat $TMPFILE`
+    echo "Result: $RESULT\n" >> $LOG_PATH/dynhost.log
     if [[ $RESULT =~ ^(good|nochg).* ]]; then
       echo ---------------------------------- >> $LOG_PATH/dynhost-changes.log
       echo `date` >> $LOG_PATH/dynhost-changes.log
       echo "New IP : $IP" >> $LOG_PATH/dynhost-changes.log
     fi
+	rm $TMPFILE
   else
     echo "Notice: IP $HOST [$OLDIP] is identical to WAN [$IP]! No update required." >> $LOG_PATH/dynhost.log
   fi
