@@ -34,7 +34,7 @@ echo '----------------------------------' >> $LOG_PATH/dynhost.log
 echo `date` >> $LOG_PATH/dynhost.log
 echo 'DynHost' >> $LOG_PATH/dynhost.log
 
-TMPFILE=`/tmp/dyndns`
+TMPFILE=`tempfile`
 
 IP=`curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}'  http://$LIVEBOX/sysbus/NMC:getWANStatus | sed -e 's/.*"IPAddress":"\(.*\)","Remo.*/\1/g'`
 IPv6=`curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}'  http://$LIVEBOX/sysbus/NMC:getWANStatus | sed -e 's/.*"IPv6Address":"\(.*\)","IPv6D.*/\1/g'`
